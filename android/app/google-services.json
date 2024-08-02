@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "149137203875",
+    "project_id": "mycaryourcar-d1d0c",
+    "storage_bucket": "mycaryourcar-d1d0c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:149137203875:android:a291f06241fc14bc1a5516",
+        "android_client_info": {
+          "package_name": "com.mycaryourcar"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCo3Mx9q0nKTINwtxztZKvRu0xknARUpp8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
