@@ -3,8 +3,15 @@ import React from "react";
 import { Button } from "@components/Button";
 import BackgroundImg from "@assets/car_background.jpg";
 import LogoSVG from "@assets/logo.svg";
+import { useNavigation } from "@react-navigation/native";
+import { AuthNavigatorRoutesProps } from "@routes/auth.routes";
 
 export function Start() {
+  const navigation = useNavigation<AuthNavigatorRoutesProps>();
+
+  function handleStart() {
+    navigation.navigate("signUp");
+  }
   return (
     <VStack flex={1}>
       <Image
@@ -25,7 +32,12 @@ export function Start() {
           </Text>
         </Center>
 
-        <Button title="Iniciar" textFontSize="$lg" rounded={"$full"} />
+        <Button
+          title="Iniciar"
+          textFontSize="$lg"
+          rounded={"$full"}
+          onPress={handleStart}
+        />
       </VStack>
     </VStack>
   );

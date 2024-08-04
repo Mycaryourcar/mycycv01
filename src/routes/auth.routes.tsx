@@ -20,9 +20,8 @@ export function AuthRoutes() {
   return (
     <Navigator screenOptions={{ headerShown: false }}>
       <Screen name="start" component={Start} />
-      {/* <Screen name="signIn" component={SignIn} />
-
-      <Screen name="signUp" component={SignUp} /> */}
+      <Screen name="signIn" component={SignIn} />
+      <Screen name="signUp" component={SignUp} />
     </Navigator>
   );
 }

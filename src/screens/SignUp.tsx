@@ -56,15 +56,15 @@ export function SignUp() {
             />
             <Input placeholder="Senha" secureTextEntry />
 
-            <Button title="Criar e acessar" />
+            {/* <Button title="Criar e acessar" /> */}
           </Center>
 
-          <Button
+          {/* <Button
             title="Voltar para o login"
             variant="outline"
             mt="$12"
             onPress={handleGoBack}
-          />
+          /> */}
         </VStack>
       </VStack>
     </ScrollView>
