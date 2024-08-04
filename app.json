@@ -12,7 +12,10 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "runtimeVersion": {
+        "policy": "appVersion"
+      }
     },
     "android": {
       "googleServicesFile": "./google-services.json",
@@ -20,7 +23,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "runtimeVersion": "1.0.0"
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -41,6 +45,9 @@
       "eas": {
         "projectId": "72e1cf87-e59b-44c3-9a01-ccbd562bd857"
       }
+    },
+    "updates": {
+      "url": "https://u.expo.dev/72e1cf87-e59b-44c3-9a01-ccbd562bd857"
     }
   }
 }
