@@ -70,7 +70,7 @@ export function SignIn() {
               autoCapitalize="none"
             />
             <Input placeholder="Senha" secureTextEntry autoCapitalize="none" />
-            <Button title="Entrar com Google" />
+            <Button title="Entrar com Google" textFontSize="$sm" />
           </Center>
 
           <Center flex={1} justifyContent="flex-end" marginTop="$4">
@@ -81,6 +81,7 @@ export function SignIn() {
             <Button
               title="Criar conta"
               variant="outline"
+              textFontSize="$sm"
               onPress={handleNewAccount}
             />
           </Center>

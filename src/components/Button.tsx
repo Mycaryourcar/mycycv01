@@ -8,23 +8,40 @@ import { ComponentProps } from "react";
 type Props = ComponentProps<typeof GluestackButton> & {
   title: string;
   isLoading?: boolean;
+  textFontSize:
+    | "$xs"
+    | "$sm"
+    | "$md"
+    | "$lg"
+    | "$xl"
+    | "$2xl"
+    | "$3xl"
+    | "$2xs"
+    | "$4xl"
+    | "$5xl"
+    | "$6xl"
+    | "$7xl"
+    | "$8xl"
+    | "$9xl"
+    | undefined;
 };
 
 export function Button({
   title,
   variant = "solid",
   isLoading = false,
+  textFontSize,
   ...props
 }: Props) {
   return (
     <GluestackButton
       w="$full"
       h="$16"
-      bg={variant === "outline" ? "transparent" : "$green700"}
+      bg={variant === "outline" ? "transparent" : "$prodEmerald100"}
       borderWidth={variant === "outline" ? "$1" : "$0"}
       borderColor="$green500"
       rounded="$sm"
-      $active-bg={variant === "outline" ? "$gray500" : "$green500"}
+      $active-bg={variant === "outline" ? "$gray500" : "$prodEmerald200"}
       disabled={isLoading}
       {...props}
     >
@@ -34,9 +51,8 @@ export function Button({
         <Text
           color={variant === "outline" ? "$green500" : "$white"}
           fontFamily="$heading"
-          fontSize="$sm"
+          fontSize={textFontSize}
         >
-          {" "}
           {title}
         </Text>
       )}

@@ -8,7 +8,7 @@ import {
   useFonts,
 } from "@expo-google-fonts/roboto";
 
-import { config } from "@gluestack-ui/config";
+import { config } from "./config/gluestack-ui.config";
 import { GluestackUIProvider } from "@gluestack-ui/themed";
 import { Loading } from "@components/Loading";
 import { SignIn } from "@screens/SignIn";
