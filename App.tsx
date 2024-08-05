@@ -15,20 +15,23 @@ import { SignIn } from "@screens/SignIn";
 import { SignUp } from "@screens/SignUp";
 import { Routes } from "@routes/index";
 import { AuthContextProvider } from "@contexts/AuthContext";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
 export default function App() {
   const [fontsLoaded] = useFonts({ Roboto_400Regular, Roboto_700Bold });
 
   return (
-    <GluestackUIProvider config={config}>
-      <StatusBar
-        barStyle="light-content"
-        backgroundColor="transparent"
-        translucent
-      />
-      <AuthContextProvider>
-        {fontsLoaded ? <Routes /> : <Loading />}
-      </AuthContextProvider>
-    </GluestackUIProvider>
+    <SafeAreaProvider>
+      <GluestackUIProvider config={config}>
+        <StatusBar
+          barStyle="light-content"
+          backgroundColor="transparent"
+          translucent
+        />
+        <AuthContextProvider>
+          {fontsLoaded ? <Routes /> : <Loading />}
+        </AuthContextProvider>
+      </GluestackUIProvider>
+    </SafeAreaProvider>
   );
 }

@@ -28,7 +28,7 @@ export function Start() {
         <Center flexDirection="row">
           <LogoSVG />
           <Text fontSize={"$6xl"} color="$prodBlack700">
-            MyCYC
+            Mycyc
           </Text>
         </Center>
 
