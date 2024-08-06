@@ -1,11 +1,13 @@
 import React, { useState } from "react";
-import { StyleSheet, TextInput } from "react-native";
 import { Text, View } from "@gluestack-ui/themed";
 import MaskInput, { Masks } from "react-native-mask-input";
-import { styles } from "./styles";
 
-export function InputBirth() {
-  const [value, setValue] = React.useState("");
+interface Props {
+  onChange: (...event: any[]) => void;
+  value: any;
+  errorMessage: string | undefined;
+}
+export function InputBirth({ onChange, value, errorMessage }: Props) {
   const [isFocused, setIsFocused] = useState(false);
 
   return (
@@ -28,17 +30,22 @@ export function InputBirth() {
             paddingVertical: 7,
             paddingLeft: 10,
             color: "#525252",
-            borderColor: isFocused ? "#269a90" : "#B0B0B0",
+            borderColor: isFocused
+              ? "#269a90"
+              : errorMessage
+              ? "#f43f5e"
+              : "#B0B0B0",
           },
         ]}
         value={value}
-        onChangeText={setValue}
+        onChangeText={onChange}
         keyboardType="numeric"
         placeholder="31/05/1996"
         placeholderTextColor="#A3A3A3"
         onFocus={() => setIsFocused(true)}
         onBlur={() => setIsFocused(false)}
       />
+      <Text color="$red500">{errorMessage}</Text>
     </View>
   );
 }

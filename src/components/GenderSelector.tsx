@@ -11,9 +11,12 @@ import {
   Text,
 } from "@gluestack-ui/themed";
 
-export function GenderSelector() {
-  const [values, setValues] = useState("Homem"); // Define o valor inicial do estado
-
+interface Props {
+  onChange: (...event: any[]) => void;
+  value: any;
+  errorMessage: string | undefined;
+}
+export function GenderSelector({ onChange, value, errorMessage }: Props) {
   return (
     <View>
       <Text
@@ -24,20 +27,20 @@ export function GenderSelector() {
       >
         SEXO
       </Text>
-      <RadioGroup value={values} onChange={setValues} mb={"$8"}>
+      <RadioGroup onChange={onChange} mb={"$8"}>
         <HStack space="2xl">
           <Radio value="Homem">
             <RadioIndicator
               mr="$2"
               style={
-                values === "Homem"
+                value === "Homem"
                   ? styles.radioIndicatorSelected
                   : styles.radioIndicator
               }
             >
               <RadioIcon
                 as={CircleIcon}
-                color={values === "Homem" ? "$prodEmerald200" : "transparent"} // Muda a cor com base na seleção
+                color={value === "Homem" ? "$prodEmerald200" : "transparent"} // Muda a cor com base na seleção
                 style={styles.radioIcon}
               />
             </RadioIndicator>
@@ -47,20 +50,21 @@ export function GenderSelector() {
             <RadioIndicator
               mr="$2"
               style={
-                values === "Mulher"
+                value === "Mulher"
                   ? styles.radioIndicatorSelected
                   : styles.radioIndicator
               }
             >
               <RadioIcon
                 as={CircleIcon}
-                color={values === "Mulher" ? "$prodEmerald200" : "transparent"} // Muda a cor com base na seleção
+                color={value === "Mulher" ? "$prodEmerald200" : "transparent"} // Muda a cor com base na seleção
                 style={styles.radioIcon}
               />
             </RadioIndicator>
             <RadioLabel>Mulher</RadioLabel>
           </Radio>
         </HStack>
+        <Text color="$red500">{errorMessage}</Text>
       </RadioGroup>
     </View>
   );

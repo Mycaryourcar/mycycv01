@@ -3,47 +3,28 @@ import {
   InputField,
   Text,
   VStack,
+  FormControl,
+  FormControlError,
+  FormControlErrorText,
 } from "@gluestack-ui/themed";
 import { ComponentProps, useState } from "react";
-import { DimensionValue } from "react-native";
 
 type Props = ComponentProps<typeof InputField> & {
   name: string;
-  w?:
-    | "$1"
-    | "$2"
-    | "$3"
-    | "$4"
-    | "$5"
-    | "$px"
-    | "$0"
-    | "$0.5"
-    | "$1.5"
-    | "$2.5"
-    | "$3.5"
-    | "$4.5"
-    | "$6"
-    | "$7"
-    | "$8"
-    | "$9"
-    | "$10"
-    | "$11"
-    | "$12"
-    | "$14"
-    | "$1/2"
-    | "$1/3"
-    | "$1/4"
-    | "$2/4"
-    | "$3/4"
-    | "$1/5"
-    | "$4/5"
-    | "$full";
+  errorMessage?: string | null;
+  isInvalid?: boolean;
 };
-export function Input({ name, w, ...props }: Props) {
+export function Input({
+  name,
+  errorMessage = null,
+  isInvalid = false,
+  ...props
+}: Props) {
   const [isFocused, setIsFocused] = useState(false);
+  const invalid = !!errorMessage || isInvalid;
 
   return (
-    <VStack w={w} mb={"$8"}>
+    <VStack mb={"$8"} flex={1}>
       <Text
         fontWeight={"$bold"}
         color={isFocused ? "$prodEmerald200" : "$prodBlack600"}
@@ -51,22 +32,40 @@ export function Input({ name, w, ...props }: Props) {
       >
         {name}
       </Text>
-      <GluestackInput
-        h="$11"
-        p="$0"
-        borderWidth="$0"
-        borderBottomWidth={"$2"}
-        borderColor={isFocused ? "$prodEmerald200" : "$secondary300"}
-      >
-        <InputField
-          color={"$prodBlack600"}
-          fontFamily="$body"
-          placeholderTextColor="#A3A3A3"
-          onFocus={() => setIsFocused(true)}
-          onBlur={() => setIsFocused(false)}
-          {...props}
-        />
-      </GluestackInput>
+      <FormControl isInvalid={invalid} mb="$4" w="$full">
+        <GluestackInput
+          isInvalid={isInvalid}
+          h="$11"
+          p="$0"
+          borderWidth="$0"
+          rounded={"$none"}
+          borderBottomWidth={"$2"}
+          borderColor={"$secondary300"}
+          $focus={{
+            borderBottomWidth: 2,
+            borderColor: invalid ? "$red500" : "$green500",
+          }}
+          $invalid={{
+            borderBottomWidth: 2,
+            borderColor: "$red500",
+          }}
+        >
+          <InputField
+            color={"$prodBlack600"}
+            fontFamily="$body"
+            placeholderTextColor="#A3A3A3"
+            onFocus={() => setIsFocused(true)}
+            onBlur={() => setIsFocused(false)}
+            {...props}
+          />
+        </GluestackInput>
+
+        <FormControlError>
+          <FormControlErrorText color="$red500">
+            {errorMessage}
+          </FormControlErrorText>
+        </FormControlError>
+      </FormControl>
     </VStack>
   );
 }

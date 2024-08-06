@@ -1,57 +1,77 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import {
   ScrollView,
   Text,
   HStack,
   Icon,
   VStack,
-  Select,
-  SelectBackdrop,
-  SelectContent,
-  SelectDragIndicator,
-  SelectDragIndicatorWrapper,
-  SelectIcon,
-  SelectInput,
-  SelectItem,
-  SelectPortal,
-  SelectTrigger,
-  View,
-  RadioGroup,
-  RadioIndicator,
-  RadioLabel,
-  Radio,
-  RadioIcon,
+  Box,
 } from "@gluestack-ui/themed";
 import { StatusBar } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { AuthNavigatorRoutesProps } from "@routes/auth.routes";
 import { TouchableOpacity } from "react-native";
-import { ArrowLeft, ChevronDownIcon, CircleIcon } from "lucide-react-native";
+import { ArrowLeft } from "lucide-react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Input } from "@components/Input";
 import { useForm, Controller } from "react-hook-form";
-import { months } from "@utils/localeCalendarConfig"; // Import the months data
 import { InputCPF } from "@components/InputCPF";
 import { InputBirth } from "@components/InputBirth";
 import { InputPhone } from "@components/InputPhone";
 import { InputCEP } from "@components/InputCEP";
 import { GenderSelector } from "@components/GenderSelector";
 import { Button } from "@components/Button";
-
-// Define a range of years
-const currentYear = new Date().getFullYear();
-const yearRange = Array.from({ length: 101 }, (_, i) => currentYear - i); // 100 years back from the current year
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
+type FormDataProps = {
+  name: string;
+  surname: string;
+  gender: string;
+  birth: string;
+  cpf: string;
+  email: string;
+  phone: string;
+  cep: string;
+  address: string;
+  number: string;
+  complement: string;
+  password: string;
+  password_confirm: string;
+};
+const signUpSchema = yup.object({
+  name: yup.string().required("Informe o nome"),
+  email: yup.string().required("Informe o e-mail").email("E-mail inválido"),
+  phone: yup.string().required("Informe número e celular"),
+  cep: yup.string().required("Informe CEP"),
+  surname: yup.string().required("Informe sobrenome"),
+  gender: yup.string().required("Informe sexo"),
+  birth: yup.string().required("Informe nascimento"),
+  cpf: yup.string().required("Informe CPF"),
+  address: yup.string().required("Informe endereço"),
+  number: yup.string().required("Informe número"),
+  complement: yup.string().required("Informe complemento"),
+  password: yup.string().required("Informe senha"),
+  password_confirm: yup
+    .string()
+    .required("Confirme a senha")
+    .oneOf([yup.ref("password"), ""], "A confirmação da senha não confere."),
+});
 
 export function SignUp() {
   const navigation = useNavigation<AuthNavigatorRoutesProps>();
-  const [selectedMonth, setSelectedMonth] = useState<string | null>(null);
-  const [selectedYear, setSelectedYear] = useState<string | null>(null);
-  const [days, setDays] = useState<number[]>([]);
 
-  const { control } = useForm();
-
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormDataProps>({
+    resolver: yupResolver(signUpSchema),
+  });
   function handleGoBack() {
     navigation.goBack();
+  }
+  function handleSignUp(data: FormDataProps) {
+    console.log(JSON.stringify(data));
   }
 
   return (
@@ -100,6 +120,7 @@ export function SignUp() {
                 autoCapitalize="words"
                 onChangeText={onChange}
                 value={value}
+                errorMessage={errors.name?.message}
               />
             )}
           />
@@ -113,17 +134,45 @@ export function SignUp() {
                 autoCapitalize="words"
                 onChangeText={onChange}
                 value={value}
+                errorMessage={errors.surname?.message}
               />
             )}
           />
-
-          <GenderSelector />
-
           <HStack gap="$2">
-            <InputBirth />
-
-            <InputCPF />
+            <Controller
+              control={control}
+              name="birth"
+              render={({ field: { onChange, value } }) => (
+                <InputBirth
+                  onChange={onChange}
+                  value={value}
+                  errorMessage={errors.birth?.message}
+                />
+              )}
+            />
+            <Controller
+              control={control}
+              name="cpf"
+              render={({ field: { onChange, value } }) => (
+                <InputCPF
+                  onChange={onChange}
+                  value={value}
+                  errorMessage={errors.cpf?.message}
+                />
+              )}
+            />
           </HStack>
+          <Controller
+            control={control}
+            name="gender"
+            render={({ field: { onChange, value } }) => (
+              <GenderSelector
+                onChange={onChange}
+                value={value}
+                errorMessage={errors.gender?.message}
+              />
+            )}
+          />
 
           <Controller
             control={control}
@@ -136,11 +185,38 @@ export function SignUp() {
                 autoCapitalize="none"
                 onChangeText={onChange}
                 value={value}
+                errorMessage={errors.email?.message}
               />
             )}
           />
-          <InputPhone />
-          <InputCEP />
+
+          <HStack gap={"$2"}>
+            <Controller
+              control={control}
+              name="phone"
+              render={({ field: { onChange, value } }) => (
+                <Box width={"$1/2"}>
+                  <InputPhone
+                    onChange={onChange}
+                    value={value}
+                    errorMessage={errors.phone?.message}
+                  />
+                </Box>
+              )}
+            />
+            <Controller
+              control={control}
+              name="cep"
+              render={({ field: { onChange, value } }) => (
+                <InputCEP
+                  onChange={onChange}
+                  value={value}
+                  errorMessage={errors.cep?.message}
+                />
+              )}
+            />
+          </HStack>
+
           <Controller
             control={control}
             name="address"
@@ -151,22 +227,25 @@ export function SignUp() {
                 autoCapitalize="words"
                 onChangeText={onChange}
                 value={value}
+                errorMessage={errors.address?.message}
               />
             )}
           />
-          <HStack gap={"$1"}>
+          <HStack gap={"$2"}>
             <Controller
               control={control}
               name="number"
               render={({ field: { onChange, value } }) => (
-                <Input
-                  w="$1/4"
-                  placeholder="31"
-                  name="NÚMERO"
-                  secureTextEntry
-                  onChangeText={onChange}
-                  value={value}
-                />
+                <Box width={"$20"}>
+                  <Input
+                    placeholder="31"
+                    name="NÚMERO"
+                    secureTextEntry
+                    onChangeText={onChange}
+                    value={value}
+                    errorMessage={errors.number?.message}
+                  />
+                </Box>
               )}
             />
             <Controller
@@ -174,12 +253,12 @@ export function SignUp() {
               name="complement"
               render={({ field: { onChange, value } }) => (
                 <Input
-                  w="$3/4"
                   placeholder=""
                   name="COMPLEMENTO"
                   secureTextEntry
                   onChangeText={onChange}
                   value={value}
+                  errorMessage={errors.complement?.message}
                 />
               )}
             />
@@ -195,6 +274,7 @@ export function SignUp() {
                 secureTextEntry
                 onChangeText={onChange}
                 value={value}
+                errorMessage={errors.password?.message}
               />
             )}
           />
@@ -208,10 +288,18 @@ export function SignUp() {
                 secureTextEntry
                 onChangeText={onChange}
                 value={value}
+                onSubmitEditing={handleSubmit(handleSignUp)}
+                returnKeyType="send"
+                errorMessage={errors.password_confirm?.message}
               />
             )}
           />
-          <Button title="Criar" textFontSize="$lg" rounded={"$2xl"} />
+          <Button
+            title="Criar"
+            textFontSize="$lg"
+            rounded={"$2xl"}
+            onPress={handleSubmit(handleSignUp)}
+          />
         </VStack>
       </ScrollView>
     </SafeAreaView>
