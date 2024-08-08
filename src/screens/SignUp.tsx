@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   ScrollView,
   Text,
@@ -23,6 +23,7 @@ import { GenderSelector } from "@components/GenderSelector";
 import { Button } from "@components/Button";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
+import auth from "@react-native-firebase/auth";
 type FormDataProps = {
   name: string;
   surname: string;
@@ -59,6 +60,7 @@ const signUpSchema = yup.object({
 
 export function SignUp() {
   const navigation = useNavigation<AuthNavigatorRoutesProps>();
+  const [isLoading, setIsLoading] = useState(false);
 
   const {
     control,
@@ -71,7 +73,13 @@ export function SignUp() {
     navigation.goBack();
   }
   function handleSignUp(data: FormDataProps) {
-    console.log(JSON.stringify(data));
+    setIsLoading(true);
+    auth()
+      .createUserWithEmailAndPassword(data.email, data.password)
+      .catch((e) => console.log(e))
+      .finally(() => {
+        setIsLoading(false);
+      });
   }
 
   return (
@@ -138,6 +146,19 @@ export function SignUp() {
               />
             )}
           />
+
+          <Controller
+            control={control}
+            name="gender"
+            render={({ field: { onChange, value } }) => (
+              <GenderSelector
+                onChange={onChange}
+                value={value}
+                errorMessage={errors.gender?.message}
+              />
+            )}
+          />
+
           <HStack gap="$2">
             <Controller
               control={control}
@@ -162,17 +183,6 @@ export function SignUp() {
               )}
             />
           </HStack>
-          <Controller
-            control={control}
-            name="gender"
-            render={({ field: { onChange, value } }) => (
-              <GenderSelector
-                onChange={onChange}
-                value={value}
-                errorMessage={errors.gender?.message}
-              />
-            )}
-          />
 
           <Controller
             control={control}
@@ -299,6 +309,7 @@ export function SignUp() {
             textFontSize="$lg"
             rounded={"$2xl"}
             onPress={handleSubmit(handleSignUp)}
+            isLoading={isLoading}
           />
         </VStack>
       </ScrollView>

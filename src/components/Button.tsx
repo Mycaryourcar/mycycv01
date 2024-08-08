@@ -29,7 +29,7 @@ type Props = ComponentProps<typeof GluestackButton> & {
 export function Button({
   title,
   variant = "solid",
-  isLoading = false,
+  isLoading,
   textFontSize,
   ...props
 }: Props) {
@@ -41,12 +41,12 @@ export function Button({
       borderWidth={variant === "outline" ? "$1" : "$0"}
       borderColor="$green500"
       rounded="$sm"
-      $active-bg={variant === "outline" ? "$gray500" : "$prodEmerald200"}
+      $active-bg={variant === "outline" ? "$trueGray200" : "$prodEmerald200"}
       disabled={isLoading}
       {...props}
     >
       {isLoading ? (
-        <ButtonSpinner color="$white" />
+        <ButtonSpinner color="$red300" />
       ) : (
         <Text
           color={variant === "outline" ? "$green500" : "$white"}

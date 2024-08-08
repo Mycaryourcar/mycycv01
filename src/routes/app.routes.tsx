@@ -5,7 +5,7 @@ import {
 
 import { Home } from "@screens/Home";
 import { Exercise } from "@screens/Exercise";
-import { History } from "@screens/History";
+import { Login } from "@screens/Login";
 import { Profile } from "@screens/Profile";
 import { gluestackUIConfig } from "../../config/gluestack-ui.config";
 
@@ -19,7 +19,7 @@ type AppRoutes = {
   home: undefined;
   exercise: undefined;
   profile: undefined;
-  history: undefined;
+  login: undefined;
 };
 
 export type AppNavigatorRoutesProps = BottomTabNavigationProp<AppRoutes>;
@@ -55,8 +55,8 @@ export function AppRoutes() {
         }}
       />
       <Screen
-        name="history"
-        component={History}
+        name="login"
+        component={Login}
         options={{
           tabBarIcon: ({ color }) => (
             <HistorySvg fill={color} width={iconSize} height={iconSize} />

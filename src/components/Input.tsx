@@ -24,7 +24,7 @@ export function Input({
   const invalid = !!errorMessage || isInvalid;
 
   return (
-    <VStack mb={"$8"} flex={1}>
+    <VStack mb={props.mb ? props.mb : "$8"}>
       <Text
         fontWeight={"$bold"}
         color={isFocused ? "$prodEmerald200" : "$prodBlack600"}
@@ -32,10 +32,14 @@ export function Input({
       >
         {name}
       </Text>
-      <FormControl isInvalid={invalid} mb="$4" w="$full">
+      <FormControl
+        isInvalid={invalid}
+        mb={props.mb ? props.mb : "$4"}
+        w="$full"
+      >
         <GluestackInput
           isInvalid={isInvalid}
-          h="$11"
+          h={props.h ? props.h : "$11"}
           p="$0"
           borderWidth="$0"
           rounded={"$none"}

@@ -10,7 +10,7 @@ export function Home() {
   const navigation = useNavigation<AuthNavigatorRoutesProps>();
 
   function handleStart() {
-    navigation.navigate("signUp");
+    navigation.navigate("login");
   }
   return (
     <VStack flex={1}>
