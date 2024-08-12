@@ -47,9 +47,9 @@ export function AppRoutes() {
         },
       }}
     >
-      {/* <Screen
-        name="home"
-        component={Home}
+      <Screen
+        name="search"
+        component={Search}
         options={{
           tabBarIcon: ({ color }) => (
             <HomeSvg fill={color} width={iconSize} height={iconSize} />
@@ -77,11 +77,6 @@ export function AppRoutes() {
       <Screen
         name="exercise"
         component={Exercise}
-        options={{ tabBarButton: () => null }}
-      /> */}
-      <Screen
-        name="search"
-        component={Search}
         options={{ tabBarButton: () => null }}
       />
     </Navigator>
