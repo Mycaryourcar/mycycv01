@@ -24,6 +24,7 @@ import { Button } from "@components/Button";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import auth from "@react-native-firebase/auth";
+
 type FormDataProps = {
   name: string;
   surname: string;

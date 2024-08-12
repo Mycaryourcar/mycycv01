@@ -14,12 +14,14 @@ import HistorySvg from "@assets/history.svg";
 import ProfileSvg from "@assets/profile.svg";
 
 import { Platform } from "react-native";
+import { Search } from "@screens/Search";
 
 type AppRoutes = {
   home: undefined;
   exercise: undefined;
   profile: undefined;
   login: undefined;
+  search: undefined;
 };
 
 export type AppNavigatorRoutesProps = BottomTabNavigationProp<AppRoutes>;
@@ -45,7 +47,7 @@ export function AppRoutes() {
         },
       }}
     >
-      <Screen
+      {/* <Screen
         name="home"
         component={Home}
         options={{
@@ -75,6 +77,11 @@ export function AppRoutes() {
       <Screen
         name="exercise"
         component={Exercise}
+        options={{ tabBarButton: () => null }}
+      /> */}
+      <Screen
+        name="search"
+        component={Search}
         options={{ tabBarButton: () => null }}
       />
     </Navigator>

@@ -32,61 +32,53 @@ import { useForm, Controller } from "react-hook-form";
 import auth from "@react-native-firebase/auth";
 import { useState } from "react";
 import React from "react";
-
+import { ForgotPasswordModal } from "@modal/ForgotPasswordModal";
 type FormDataProps = {
   email: string;
   password: string;
 };
+
 const signUpSchema = yup.object({
   email: yup.string().required("Informe o e-mail").email("E-mail inválido"),
   password: yup.string().required("Informe senha"),
 });
-const emailSchema = yup.object({
-  email: yup.string().required("Informe o e-mail").email("E-mail inválido"),
-});
+
 export function Login() {
   const navigation = useNavigation<AuthNavigatorRoutesProps>();
   const [isLoading, setIsLoading] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+
   const {
     control,
     handleSubmit,
     formState: { errors },
+    getValues,
   } = useForm<FormDataProps>({
     resolver: yupResolver(signUpSchema),
   });
-  const {
-    control: emailControl,
-    handleSubmit: handleEmailSubmit,
-    formState: { errors: emailErrors },
-  } = useForm<Omit<FormDataProps, "password">>({
-    resolver: yupResolver(emailSchema),
-  });
+
   function handleGoBack() {
     navigation.goBack();
   }
+
   function handleAccount(data: FormDataProps) {
     setIsLoading(true);
     auth()
       .signInWithEmailAndPassword(data.email, data.password)
       .then(() => console.log("Logado com sucesso"))
       .catch((e) => console.log(e))
-      .finally(() => {
-        setIsLoading(false);
-      });
+      .finally(() => setIsLoading(false));
   }
-  function handleForgotPassword({ email }: Omit<FormDataProps, "password">) {
+
+  function handleForgotPassword() {
+    const email = getValues("email"); // Obtém o e-mail do formulário
     setShowModal(true);
-    console.log("Here");
-    auth()
-      .sendPasswordResetEmail(email)
-      .then(() => console.log("Redefinir", "Enviamos um e-mail"));
   }
+
   function handleNewAccount() {
     navigation.navigate("signUp");
   }
-  const [showModal, setShowModal] = useState(false);
-  console.log(showModal);
-  const ref = React.useRef(null);
+
   return (
     <SafeAreaView style={{ flex: 1, paddingTop: 60, paddingHorizontal: 20 }}>
       <StatusBar
@@ -100,7 +92,7 @@ export function Login() {
 
       <VStack>
         <Controller
-          control={emailControl}
+          control={control}
           name="email"
           render={({ field: { onChange, value } }) => (
             <Input
@@ -110,7 +102,7 @@ export function Login() {
               autoCapitalize="none"
               onChangeText={onChange}
               value={value}
-              errorMessage={emailErrors.email?.message}
+              errorMessage={errors.email?.message}
             />
           )}
         />
@@ -134,8 +126,7 @@ export function Login() {
 
         <TouchableOpacity
           style={{ alignSelf: "flex-end" }}
-          onPress={handleEmailSubmit(handleForgotPassword)}
-          ref={ref}
+          onPress={handleForgotPassword}
         >
           <Text color="$green500">Esqueci minha senha</Text>
         </TouchableOpacity>
@@ -152,53 +143,13 @@ export function Login() {
           mb={"$2"}
           title="Cadastrar"
           variant="outline"
-          // onPress={handleNewAccount}
+          onPress={handleNewAccount}
           textFontSize="$lg"
         />
-        <Modal
-          isOpen={showModal}
-          onClose={() => {
-            setShowModal(false);
-          }}
-          finalFocusRef={ref}
-        >
-          <ModalBackdrop />
-          <ModalContent>
-            <ModalHeader>
-              <Heading size="lg">Esqueci minha senha</Heading>
-              <ModalCloseButton>
-                <Icon as={CloseIcon} />
-              </ModalCloseButton>
-            </ModalHeader>
-            <ModalBody>
-              <Text lineHeight={"$md"}>
-                Como você prefere receber o código de verificação para redefinir
-                sua senha?
-              </Text>
-            </ModalBody>
-            <ModalFooter>
-              <Button
-                mb={"$2"}
-                title="E-mail"
-                variant="outline"
-                textFontSize="$lg"
-                onPress={() => {
-                  setShowModal(false);
-                }}
-              />
-              <Button
-                mb={"$2"}
-                title="SMS"
-                textFontSize="$lg"
-                onPress={() => {
-                  setShowModal(false);
-                }}
-              />
-            </ModalFooter>
-          </ModalContent>
+        <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
+          <ForgotPasswordModal email={getValues("email")} />
         </Modal>
       </VStack>
-      {/* <Button title="Pesquisar" onPress={handleSearch} /> */}
     </SafeAreaView>
   );
 }
