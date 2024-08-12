@@ -1,5 +1,16 @@
 import { Button } from "@components/Button";
-import { Center, Text, HStack, Icon, Box, VStack } from "@gluestack-ui/themed";
+import {
+  Center,
+  Text,
+  HStack,
+  Icon,
+  Box,
+  VStack,
+  Checkbox,
+  CheckboxIndicator,
+  CheckboxIcon,
+  CheckboxLabel,
+} from "@gluestack-ui/themed";
 import { StatusBar } from "react-native";
 import firestore from "@react-native-firebase/firestore";
 import { useState } from "react";
@@ -11,7 +22,7 @@ import LogoSVG from "@assets/logo.svg";
 import { useLocalOption } from "@hooks/useLocalOption";
 import { AppNavigatorRoutesProps } from "@routes/app.routes";
 import { useNavigation } from "@react-navigation/native";
-import { CheckBoxInternal } from "@components/CheckBox";
+import { CheckIcon } from "lucide-react-native";
 const patrimony = "ABC123"; // Exemplo de valor, substitua conforme necessário
 const description = "A nice car";
 
@@ -35,11 +46,11 @@ export function SearchBox() {
   }
   function handleStartLocation() {
     setLocation("start");
-    // navigation.navigate("tabs", { screen: "LOCATION" });
+    navigation.navigate("location");
   }
   function handleEndLocation() {
     setLocation("end");
-    // navigation.navigate("tabs", { screen: "LOCATION" });
+    navigation.navigate("location");
   }
 
   function handleCheck() {
@@ -56,7 +67,6 @@ export function SearchBox() {
         elevation: 5, // Elevation para Android
       }}
       bg="$white" // Cor de fundo
-      height="$40" // Altura
       paddingHorizontal="$3" // Padding horizontal
       marginHorizontal="$3" // Margin horizontal
       paddingBottom="$5" // Padding inferior
@@ -127,7 +137,7 @@ export function SearchBox() {
         </Box>
 
         {/* <Box display={sameReturn ? "none" : "inherit"} mt={8}> */}
-        <Box display={sameReturn ? "none" : "flex"} mt={8}>
+        <Box display={sameReturn ? "none" : "flex"} mt={"$8"}>
           {endLocation ? (
             <Text
               style={{
@@ -175,7 +185,30 @@ export function SearchBox() {
           <Box />
         )}
 
-        <CheckBoxInternal />
+        <Checkbox
+          size="md"
+          isInvalid={false}
+          isDisabled={false}
+          value={"true"}
+          defaultIsChecked
+          marginTop={"$5"}
+          aria-label="aria"
+          onChange={handleCheck}
+        >
+          <CheckboxIndicator mr="$2" borderColor="$prodEmerald200">
+            <CheckboxIcon
+              as={CheckIcon}
+              backgroundColor="$prodEmerald200"
+              color="$white"
+            />
+          </CheckboxIndicator>
+          <CheckboxLabel>
+            <Text style={{ color: "#7C7C8A", fontWeight: "300" }}>
+              <Text style={{ fontWeight: "bold" }}>Devolver </Text>
+              no mesmo local de retirada
+            </Text>
+          </CheckboxLabel>
+        </Checkbox>
       </VStack>
     </Box>
   );

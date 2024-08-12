@@ -25,6 +25,9 @@ export function Search() {
     //   .finally(() => setIsLoading(false));
     // auth().signOut();
   }
+  function handleSearch() {
+    // navigation.navigate("carList");
+  }
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <StatusBar
@@ -33,7 +36,7 @@ export function Search() {
         translucent={true}
       />
       <Box bg="$prodEmerald100" width="$full" height={"$40"}>
-        <HStack justifyContent="center" mt={"$12"} px={3}>
+        <HStack justifyContent="center" mt={"$12"} px={"$3"}>
           <LogoSVG />
 
           <Text
@@ -49,6 +52,14 @@ export function Search() {
         </HStack>
       </Box>
       <SearchBox />
+      <Box mb={"$5"} px={"$3"}>
+        <Button
+          title="Pesquisar"
+          textFontSize={"$lg"}
+          onPress={handleSearch}
+          rounded={"$full"}
+        />
+      </Box>
     </SafeAreaView>
   );
 }

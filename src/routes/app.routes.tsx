@@ -15,6 +15,7 @@ import ProfileSvg from "@assets/profile.svg";
 
 import { Platform } from "react-native";
 import { Search } from "@screens/Search";
+import { LocalOptions } from "@screens/LocalOptions";
 
 type AppRoutes = {
   home: undefined;
@@ -22,6 +23,7 @@ type AppRoutes = {
   profile: undefined;
   login: undefined;
   search: undefined;
+  location: undefined;
 };
 
 export type AppNavigatorRoutesProps = BottomTabNavigationProp<AppRoutes>;
@@ -77,6 +79,11 @@ export function AppRoutes() {
       <Screen
         name="exercise"
         component={Exercise}
+        options={{ tabBarButton: () => null }}
+      />
+      <Screen
+        name="location"
+        component={LocalOptions}
         options={{ tabBarButton: () => null }}
       />
     </Navigator>

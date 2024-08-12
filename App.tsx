@@ -15,6 +15,8 @@ import { SignIn } from "@screens/SignIn";
 import { SignUp } from "@screens/SignUp";
 import { Routes } from "@routes/index";
 import { AuthContextProvider } from "@contexts/AuthContext";
+import { LocationProvider } from "@contexts/LocalOptionsContext";
+
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
 export default function App() {
@@ -29,7 +31,9 @@ export default function App() {
           translucent
         />
         <AuthContextProvider>
-          {fontsLoaded ? <Routes /> : <Loading />}
+          <LocationProvider>
+            {fontsLoaded ? <Routes /> : <Loading />}
+          </LocationProvider>
         </AuthContextProvider>
       </GluestackUIProvider>
     </SafeAreaProvider>
