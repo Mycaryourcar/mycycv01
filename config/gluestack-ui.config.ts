@@ -33,7 +33,7 @@ export const gluestackUIConfig = createConfig({
       prodEmerald300: "#005F56",
       prodBlack600: "#525252",
       prodBlack700: "#404040",
-
+      prodGray300: "#7C7C8A",
       rose50: "#fff1f2",
       rose100: "#ffe4e6",
       rose200: "#fecdd3",
