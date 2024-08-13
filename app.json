@@ -15,7 +15,8 @@
       "supportsTablet": true,
       "runtimeVersion": {
         "policy": "appVersion"
-      }
+      },
+      "bundleIdentifier": "com.mycaryourcar"
     },
     "android": {
       "googleServicesFile": "./google-services.json",
